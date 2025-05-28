@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32516.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "VBAudioRouter.UWP", "VBAudioRouter.UWP\VBAudioRouter.UWP.vbproj", "{65472FE0-CAA5-4078-9155-3373AF4B692F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VBAudioRouter", "VBAudioRouter\VBAudioRouter.csproj", "{479E5F66-984B-4CF5-A358-4979600292DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VBAudioRouter", "src\VBAudioRouter.csproj", "{479E5F66-984B-4CF5-A358-4979600292DC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
