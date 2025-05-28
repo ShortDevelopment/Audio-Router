@@ -2,28 +2,17 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using NAudio.CoreAudioApi.Interfaces;
-using VBAudioRouter.UI;
+using System.Diagnostics;
+using VBAudioRouter.Utils;
 
-namespace VBAudioRouter.Controls;
+namespace VBAudioRouter.LocalAudioMix;
 
 public sealed partial class AudioSessionControl : UserControl, IAudioSessionEvents
 {
-    public IAudioSessionControl AudioSession
-    {
-        get;
-    }
-    public NAudio.CoreAudioApi.AudioSessionControl NAudioSessionControl
-    {
-        get;
-    }
-    public NAudio.CoreAudioApi.AudioMeterInformation AudioMeterInformation
-    {
-        get;
-    }
-    public NAudio.CoreAudioApi.SimpleAudioVolume SimpleAudioVolume
-    {
-        get;
-    }
+    public IAudioSessionControl AudioSession { get; }
+    public NAudio.CoreAudioApi.AudioSessionControl NAudioSessionControl { get; }
+    public NAudio.CoreAudioApi.AudioMeterInformation AudioMeterInformation { get; }
+    public NAudio.CoreAudioApi.SimpleAudioVolume SimpleAudioVolume { get; }
 
     readonly SpeakerControlPage SpeakerControlPageInstance;
 
@@ -37,26 +26,44 @@ public sealed partial class AudioSessionControl : UserControl, IAudioSessionEven
         SimpleAudioVolume = NAudioSessionControl.SimpleAudioVolume;
 
         VolumeSlider.Value = SimpleAudioVolume.Volume * 100;
-        DisplayNameTextBlock.Text = NAudioSessionControl.DisplayName;
+        DisplayNameTextBlock.Text = GetSessionDisplayName();
 
-        System.Timers.Timer timer = new()
-        {
-            Interval = 30
-        };
-        timer.Elapsed += (s, e) =>
+        var timer = DispatcherQueue.CreateTimer();
+        timer.Interval = TimeSpan.FromMilliseconds(30);
+        timer.Tick += (s, e) =>
         {
             var unused = DispatcherQueue.TryEnqueue(() =>
             {
                 var peakValues = AudioMeterInformation.PeakValues;
-                if (peakValues.Count > 0)
+                if (peakValues.Count >= 1)
                     LeftMeter.ScaleX = peakValues[0];
-                if (peakValues.Count > 1)
+                if (peakValues.Count >= 2)
                     RightMeter.ScaleX = peakValues[1];
             });
         };
-        timer.Enabled = true;
+        timer.Start();
 
         audioSession.RegisterAudioSessionNotification(this);
+    }
+
+    string GetSessionDisplayName()
+    {
+        if (NAudioSessionControl.IsSystemSoundsSession)
+            return "System";
+
+        var displayName = NAudioSessionControl.DisplayName;
+        if (!string.IsNullOrEmpty(displayName))
+            return displayName;
+
+        var process = Process.TryGetById((int)NAudioSessionControl.GetProcessID);
+        if (process is null)
+            return "";
+
+        var windowTitle = process.MainWindowTitle;
+        if (!string.IsNullOrEmpty(windowTitle))
+            return windowTitle;
+
+        return process.ProcessName;
     }
 
     private void AudioSessionControl_Unloaded(object sender, RoutedEventArgs e)
@@ -69,8 +76,9 @@ public sealed partial class AudioSessionControl : UserControl, IAudioSessionEven
     {
         if (SimpleAudioVolume == null | oldValue == VolumeSlider.Value)
             return;
+
         oldValue = VolumeSlider.Value;
-        SimpleAudioVolume.Volume = System.Convert.ToSingle(VolumeSlider.Value / (double)100.0F);
+        SimpleAudioVolume?.Volume = Convert.ToSingle(VolumeSlider.Value / (double)100.0F);
     }
 
     private bool isMuted = false;
@@ -105,7 +113,7 @@ public sealed partial class AudioSessionControl : UserControl, IAudioSessionEven
 
     public int OnSimpleVolumeChanged(float volume, bool isMuted, ref Guid eventContext)
     {
-        DispatcherQueue.TryEnqueue(() =>
+        DispatcherQueue?.TryEnqueue(() =>
         {
             if (oldValue != volume * 100)
             {
@@ -136,7 +144,7 @@ public sealed partial class AudioSessionControl : UserControl, IAudioSessionEven
 
     public int OnSessionDisconnected(AudioSessionDisconnectReason disconnectReason)
     {
-        DispatcherQueue.TryEnqueue(() => SpeakerControlPageInstance.AudioSessions.Remove(this));
+        DispatcherQueue?.TryEnqueue(() => SpeakerControlPageInstance.AudioSessions.Remove(this));
 
         return 0;
     }

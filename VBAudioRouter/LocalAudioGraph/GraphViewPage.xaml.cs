@@ -1,8 +1,10 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using ShortDev.NodeFlow.WinUI;
 using VBAudioRouter.Controls.Nodes;
 using VBAudioRouter.GraphControl;
+using VBAudioRouter.Utils;
 using Windows.Media.Audio;
 using NodeFactoryProc = System.Func<
     Windows.Media.Audio.AudioGraph,
@@ -12,7 +14,7 @@ using NodeFactoryProc = System.Func<
     )>
 >;
 
-namespace VBAudioRouter.UI;
+namespace VBAudioRouter.LocalAudioGraph;
 internal sealed partial class GraphViewPage : Page
 {
     public AudioGraph CurrentAudioGraph => _faderData.AudioGraph;
@@ -26,15 +28,12 @@ internal sealed partial class GraphViewPage : Page
         AddNode("Output", new OutputNodeControl(faderData.ConnectionNode));
     }
 
-    static readonly Dictionary<string, NodeFactoryProc> FactoryLookup = new() {
-        { nameof(FileInputNodeControl), PrepareNodeFactory<FileInputNodeControl>() },
-        { nameof(ProcessInputNodeControl), PrepareNodeFactory<ProcessInputNodeControl>() }
-    };
+    static readonly Dictionary<string, NodeFactoryProc> FactoryLookup = [];
 
     static NodeFactoryProc PrepareNodeFactory<TFactory>()
         where TFactory : IAudioNodeControlFactory<TFactory>, IAudioNodeControl<IAudioNode>
     {
-        return static async (AudioGraph graph) => (TFactory.DisplayName, await TFactory.CreateAsync(graph));
+        return static async graph => (TFactory.DisplayName, await TFactory.CreateAsync(graph));
     }
 
     private async void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
@@ -52,11 +51,7 @@ internal sealed partial class GraphViewPage : Page
         }
         catch (Exception ex)
         {
-            Dialogs.ErrorDialog dialog = new(ex)
-            {
-                Title = "Failed to add node"
-            };
-            await dialog.ShowAsync();
+            await this.ShowErrorDialogAsync(ex);
         }
     }
 

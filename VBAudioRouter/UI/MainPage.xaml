@@ -4,29 +4,30 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:local="using:VBAudioRouter.UI"
+    xmlns:local="using:VBAudioRouter.UI" xmlns:enumeration="using:Windows.Devices.Enumeration"
     mc:Ignorable="d">
 
-    <muxc:NavigationView PaneDisplayMode="Top"
-                             SelectionFollowsFocus="Enabled" IsBackButtonVisible="Collapsed" IsSettingsVisible="False"
-                             SelectionChanged="NavigationView_SelectionChanged">
-        <muxc:NavigationView.MenuItems>
-            <muxc:NavigationViewItem Content="Default Speaker">
-                <muxc:NavigationViewItem.Icon>
+    <NavigationView PaneDisplayMode="Top" MenuItemsSource="{x:Bind RenderDeviceWatcher.RenderDevices}"
+                    SelectionFollowsFocus="Enabled" IsBackButtonVisible="Collapsed" IsSettingsVisible="False"
+                    SelectionChanged="NavigationView_SelectionChanged">
+        <NavigationView.MenuItems>
+            <NavigationViewItem Content="Default Speaker">
+                <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xe8d6;" />
-                </muxc:NavigationViewItem.Icon>
-            </muxc:NavigationViewItem>
-        </muxc:NavigationView.MenuItems>
-        <muxc:NavigationView.FooterMenuItems>
-            <muxc:NavigationViewItem Content="New Instance" SelectsOnInvoked="False"
-                                     x:Name="NewInstanceNavigationViewItem" Tapped="NewInstanceNavigationViewItem_Tapped">
-                <muxc:NavigationViewItem.Icon>
-                    <FontIcon Glyph="&#xe78b;" />
-                </muxc:NavigationViewItem.Icon>
-            </muxc:NavigationViewItem>
-        </muxc:NavigationView.FooterMenuItems>
-        <Frame x:Name="ContentFrame">
-            <local:MixViewPage />
-        </Frame>
-    </muxc:NavigationView>
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+        </NavigationView.MenuItems>
+
+        <NavigationView.MenuItemTemplate>
+            <DataTemplate x:DataType="enumeration:DeviceInformation">
+                <NavigationViewItem Content="{x:Bind Name, Mode=OneWay}" IsEnabled="{x:Bind IsEnabled, Mode=OneWay}">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xe7f5;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </DataTemplate>
+        </NavigationView.MenuItemTemplate>
+
+        <Frame x:Name="ContentFrame" />
+    </NavigationView>
 </Page>

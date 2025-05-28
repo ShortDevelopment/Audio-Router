@@ -1,8 +1,8 @@
 ﻿<Page
-    x:Class="VBAudioRouter.UI.MixViewPage"
+    x:Class="VBAudioRouter.LocalAudioGraph.MixViewPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:VBAudioRouter"
+    xmlns:local="using:VBAudioRouter.LocalAudioGraph"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:nodes="using:VBAudioRouter.Controls.Nodes"
@@ -10,7 +10,7 @@
     xmlns:controls="using:VBAudioRouter.Controls" xmlns:graphcontrol="using:VBAudioRouter.GraphControl"
     mc:Ignorable="d"
     RequestedTheme="Dark"
-    Loaded="MixViewPage_Loaded" NavigationCacheMode="Required">
+    NavigationCacheMode="Required">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -26,7 +26,7 @@
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="graphcontrol:FaderData">
-                    <controls:FaderControl FaderData="{x:Bind}" />
+                    <local:FaderControl FaderData="{x:Bind}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.ItemContainerStyle>

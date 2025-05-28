@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using Windows.Media.Audio;
 
 namespace VBAudioRouter.GraphControl;
-internal sealed class FaderData(AudioGraph graph) : ObservableObject
+internal sealed partial class FaderData(AudioGraph graph) : ObservableObject
 {
     public AudioGraph AudioGraph { get; } = graph;
     public AudioSubmixNode ConnectionNode { get; } = graph.CreateSubmixNode();

@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="VBAudioRouter.Controls.FaderControl"
+    x:Class="VBAudioRouter.LocalAudioGraph.FaderControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:VBAudioRouter"

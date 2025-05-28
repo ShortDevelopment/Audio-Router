@@ -2,9 +2,8 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using VBAudioRouter.GraphControl;
-using VBAudioRouter.UI;
 
-namespace VBAudioRouter.Controls;
+namespace VBAudioRouter.LocalAudioGraph;
 
 [ObservableObject]
 internal sealed partial class FaderControl : UserControl
@@ -15,7 +14,7 @@ internal sealed partial class FaderControl : UserControl
     }
 
     [ObservableProperty]
-    private FaderData? _faderData = null;
+    public partial FaderData? FaderData { get; set; } = null;
 
     private async void OpenGraphButton_Click(object sender, RoutedEventArgs e)
     {
@@ -27,7 +26,8 @@ internal sealed partial class FaderControl : UserControl
             XamlRoot = XamlRoot,
             Content = new GraphViewPage(FaderData),
             HorizontalAlignment = HorizontalAlignment.Stretch,
-            VerticalAlignment = VerticalAlignment.Stretch
+            VerticalAlignment = VerticalAlignment.Stretch,
+            MaxWidth = 500
         }.ShowAsync();
     }
 }

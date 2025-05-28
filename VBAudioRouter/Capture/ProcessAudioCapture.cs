@@ -18,18 +18,12 @@ namespace VBAudioRouter.Capture;
 
 public sealed partial class ProcessAudioCapture(Process process, bool include = true) : IDisposable
 {
-    public Process Process
-    {
-        get;
-    } = process;
-    public bool IncludeProcessTree
-    {
-        get;
-    } = include;
+    public Process Process { get; } = process;
+    public bool IncludeProcessTree { get; } = include;
 
-    AudioClient client;
-    AudioCaptureClient captureClient;
-    WaveFormat format;
+    AudioClient? _client;
+    AudioCaptureClient? _captureClient;
+    WaveFormat? _format;
 
     // https://github.dev/microsoft/Windows-classic-samples/blob/main/Samples/ApplicationLoopback/cpp/LoopbackCapture.cpp
     public AudioFrameInputNode CreateAudioNode(AudioGraph graph)
@@ -38,7 +32,7 @@ public sealed partial class ProcessAudioCapture(Process process, bool include = 
 
         var nodeFormat = audioNode.EncodingProperties;
         int blockAlign = (int)(nodeFormat.ChannelCount * nodeFormat.BitsPerSample / 8);
-        format = WaveFormat.CreateCustomFormat(WaveFormatEncoding.IeeeFloat, (int)nodeFormat.SampleRate, (int)nodeFormat.ChannelCount, (int)nodeFormat.SampleRate * blockAlign, blockAlign, (int)nodeFormat.BitsPerSample);
+        _format = WaveFormat.CreateCustomFormat(WaveFormatEncoding.IeeeFloat, (int)nodeFormat.SampleRate, (int)nodeFormat.ChannelCount, (int)nodeFormat.SampleRate * blockAlign, blockAlign, (int)nodeFormat.BitsPerSample);
 
         audioNode.QuantumStarted += AudioNode_QuantumStarted;
         return audioNode;
@@ -51,26 +45,26 @@ public sealed partial class ProcessAudioCapture(Process process, bool include = 
 
         // Client need to be activated in here so that we don't run into threading problems
         // This method get's called on an MTA worker thread from native code
-        if (client == null)
+        if (_client == null)
         {
             const uint AUDCLNT_STREAMFLAGS_AUTOCONVERTPCM = 0x80000000;
-            client = new(ActivateAudioClientInternal());
-            client.Initialize(
+            _client = new(ActivateAudioClientInternal());
+            _client.Initialize(
                 AudioClientShareMode.Shared,
                 AudioClientStreamFlags.Loopback,
                 5 * 10_000_000,
                 AUDCLNT_STREAMFLAGS_AUTOCONVERTPCM,
-                format,
+                _format,
                 Guid.Empty);
 
-            captureClient = client.AudioCaptureClient;
-            client.Start();
+            _captureClient = _client.AudioCaptureClient;
+            _client.Start();
         }
 
-        int availablePackages = captureClient.GetNextPacketSize();
+        int availablePackages = _captureClient.GetNextPacketSize();
         if (availablePackages != 0)
         {
-            uint bytesToCapture = (uint)(format.BlockAlign * availablePackages);
+            uint bytesToCapture = (uint)(_format.BlockAlign * availablePackages);
             AudioFrame frame = new(bytesToCapture);
             using (AudioBuffer buffer = frame.LockBuffer(AudioBufferAccessMode.Write))
             using (var reference = buffer.CreateReference())
@@ -79,9 +73,9 @@ public sealed partial class ProcessAudioCapture(Process process, bool include = 
                 {
                     byte* targetBuffer = default;
                     reference.As<IMemoryBufferByteAccess>().GetBuffer(&targetBuffer, out _);
-                    byte* srcBuffer = (byte*)captureClient.GetBuffer(out var numFrames, out _);
+                    byte* srcBuffer = (byte*)_captureClient.GetBuffer(out var numFrames, out _);
                     Buffer.MemoryCopy(srcBuffer, targetBuffer, bytesToCapture, bytesToCapture);
-                    captureClient.ReleaseBuffer(numFrames);
+                    _captureClient.ReleaseBuffer(numFrames);
                 }
             }
             sender.AddFrame(frame);
@@ -91,11 +85,16 @@ public sealed partial class ProcessAudioCapture(Process process, bool include = 
     bool disposed = false;
     void IDisposable.Dispose()
     {
+        if (disposed)
+            return;
+
         disposed = true;
-        client.Dispose();
-        client = null;
-        captureClient.Dispose();
-        captureClient = null;
+
+        _client?.Dispose();
+        _client = null;
+
+        _captureClient?.Dispose();
+        _captureClient = null;
     }
 
     unsafe IAudioClient ActivateAudioClientInternal()

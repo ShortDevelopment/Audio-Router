@@ -1,33 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Security;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.VisualBasic;
 using Windows.Foundation;
 
 namespace VBAudioRouter.Controls;
 
 public sealed partial class EQDragControl : UserControl
 {
-    public Canvas Canvas
-    {
-        get; set;
-    }
-    public int Index
-    {
-        get; set;
-    }
+    public Canvas Canvas { get; set; }
+    public int Index { get; set; }
 
-    public event EventHandler<Point> ValueChanged;
+    public event EventHandler<Point>? ValueChanged;
 
     public void SetPosition(Point p)
     {

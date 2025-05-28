@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using MorseCode.ITask;
+using ShortDev.NodeFlow.WinUI;
 using System.Diagnostics;
-using VBAudioRouter.GraphControl;
+using VBAudioRouter.LocalAudioGraph;
 using Windows.Media.Audio;
 using Windows.Media.Core;
 using Windows.Storage.Pickers;
@@ -11,25 +13,21 @@ using WinRT.Interop;
 namespace VBAudioRouter.Controls.Nodes;
 
 [ObservableObject]
-internal sealed partial class FileInputNodeControl : UserControl, IAudioInputNodeControl<MediaSourceAudioInputNode>, IAudioNodeControlFactory<FileInputNodeControl>
+internal sealed partial class FileInputNodeControl : NodeControl, IAudioNodeFactory<MediaSourceAudioInputNode>
 {
-    readonly AudioGraph _graph;
-    private FileInputNodeControl(AudioGraph graph)
+    private FileInputNodeControl()
     {
-        _graph = graph;
-
         InitializeComponent();
     }
 
-    public MediaSourceAudioInputNode? GraphNode { get; private set; }
-
     [ObservableProperty]
-    MediaSource? _mediaSource;
+    public partial MediaSource? MediaSource { get; set; }
 
     public Canvas? Canvas { get; set; }
 
     public ConnectorControl OutgoingConnector => OutgoingConnectorControl;
 
+    public event EventHandler? NodeInvalidated;
     private async void Button_Click(object sender, RoutedEventArgs e)
     {
         var file = await CreatePicker().PickSingleFileAsync();
@@ -37,17 +35,8 @@ internal sealed partial class FileInputNodeControl : UserControl, IAudioInputNod
             return;
 
         PathDisplay.Text = file.Path;
-        BrowseButton.IsEnabled = false;
 
-        MediaSource = MediaSource.CreateFromStorageFile(file);
-        var result = await _graph.CreateMediaSourceAudioInputNodeAsync(MediaSource);
-        if (result.Status != MediaSourceAudioInputNodeCreationStatus.Success)
-            throw result.ExtendedError;
-
-        GraphNode = result.Node;
-        GraphNode.Start();
-
-        this.ReconnectAudioNode();
+        NodeInvalidated?.Invoke(this, EventArgs.Empty);
     }
 
     static FileOpenPicker CreatePicker()
@@ -68,7 +57,13 @@ internal sealed partial class FileInputNodeControl : UserControl, IAudioInputNod
         return picker;
     }
 
-    public static ValueTask<FileInputNodeControl> CreateAsync(AudioGraph graph)
-        => new(new FileInputNodeControl(graph));
+    public async ITask<MediaSourceAudioInputNode> CreateAudioNodeAsync(AudioGraph graph)
+    {
+        var result = await graph.CreateMediaSourceAudioInputNodeAsync(MediaSource);
+        if (result.Status != MediaSourceAudioInputNodeCreationStatus.Success)
+            throw result.ExtendedError;
+
+        return result.Node;
+    }
 }
 

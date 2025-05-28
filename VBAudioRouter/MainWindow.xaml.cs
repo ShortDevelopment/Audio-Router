@@ -1,15 +1,13 @@
-﻿using VBAudioRouter.Helpers;
-
-using Windows.UI.ViewManagement;
+﻿using Microsoft.UI.Xaml.Controls;
+using VBAudioRouter.Helpers;
+using VBAudioRouter.LocalAudioGraph;
+using VBAudioRouter.LocalAudioMix;
+using VBAudioRouter.UI;
 
 namespace VBAudioRouter;
 
 public sealed partial class MainWindow : WindowEx
 {
-    private Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue;
-
-    private UISettings settings;
-
     public MainWindow()
     {
         InitializeComponent();
@@ -17,20 +15,25 @@ public sealed partial class MainWindow : WindowEx
         AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Assets/WindowIcon.ico"));
         Title = "AppDisplayName".GetLocalized();
 
-        // Theme change code picked from https://github.com/microsoft/WinUI-Gallery/pull/1239
-        dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
-        settings = new UISettings();
-        settings.ColorValuesChanged += Settings_ColorValuesChanged; // cannot use FrameworkElement.ActualThemeChanged event
+        ExtendsContentIntoTitleBar = true;
+        SetTitleBar(DefaultTitleBar);
     }
 
-    // this handles updating the caption button colors correctly when indows system theme is changed
-    // while the app is open
-    private void Settings_ColorValuesChanged(UISettings sender, object args)
+    private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
     {
-        // This calls comes off-thread, hence we will need to dispatch it to current app's thread
-        dispatcherQueue.TryEnqueue(() =>
+        var item = args.SelectedItemContainer;
+        if (item is null)
+            return;
+
+        var (page, parameter) = item.Tag switch
         {
-            TitleBarHelper.ApplySystemThemeToCaptionButtons();
-        });
+            "LocalAudioGraph" => (typeof(AudioGraphPage), null),
+            "LocalAudioMix" => (typeof(MainPage), typeof(SpeakerControlPage)),
+            _ => (null, null)
+        };
+        if (page is null)
+            return;
+
+        MainFrame.Navigate(page, parameter, args.RecommendedNavigationTransitionInfo);
     }
 }

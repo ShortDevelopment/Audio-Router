@@ -1,39 +1,47 @@
-﻿<UserControl
+﻿<nodes:NodeControl
     x:Class="VBAudioRouter.Controls.Nodes.ProcessInputNodeControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:VBAudioRouter.Controls"
+    xmlns:nodes="using:ShortDev.NodeFlow.WinUI"
+    xmlns:local="using:VBAudioRouter.Controls.Nodes"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
-    RequestedTheme="Dark">
+    Style="{StaticResource DefaultNodeControlStyle}"
+    MaxHeight="500"
+    Padding="0">
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="15" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="15" />
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="1">
-            <ComboBox x:Name="InputDevices" HorizontalAlignment="Center" PlaceholderText="Input Process" Width="160" SelectionChanged="InputDevices_SelectionChanged" />
-            <UserControl Height="20" />
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <AppBarButton Grid.Column="0" VerticalAlignment="Center" Width="40" Margin="0,0,10,0" Icon="Volume" LabelPosition="Collapsed" x:Name="MuteButton" Click="MuteToggleButton_Click" ToolTipService.ToolTip="Mute" />
-                <Slider Grid.Column="1" VerticalAlignment="Center" TickFrequency="10" TickPlacement="Outside" Minimum="0" Value="100" Maximum="100" x:Name="GainSlider" ValueChanged="Slider_ValueChanged" />
-            </Grid>
-        </StackPanel>
-        <StackPanel Grid.Column="2">
-            <controls:ConnectorControl x:Name="OutgoingConnectorControl" Margin="0,5,0,5" IsOutgoing="True">
-                <controls:ConnectorControl.RenderTransform>
-                    <CompositeTransform TranslateX="18" />
-                </controls:ConnectorControl.RenderTransform>
-            </controls:ConnectorControl>
-        </StackPanel>
+    <Grid Grid.Column="1">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <TreeView ItemsSource="{x:Bind ProcessTreeNodes}"
+                  Padding="16,0,16,0">
+            <TreeView.ItemTemplate>
+                <DataTemplate x:DataType="local:ProcessTreeNode">
+                    <TreeViewItem AutomationProperties.Name="{x:Bind Name}" ItemsSource="{x:Bind Children}">
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon Glyph="&#xECAA;" />
+                            <TextBlock Margin="0,0,10,0"/>
+                            <TextBlock Text="{x:Bind Name}"/>
+                        </StackPanel>
+                    </TreeViewItem>
+                </DataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <AppBarButton Grid.Column="0" VerticalAlignment="Center" Width="40" Margin="0,0,10,0" Icon="Volume" LabelPosition="Collapsed" x:Name="MuteButton" Click="MuteToggleButton_Click" ToolTipService.ToolTip="Mute" />
+            <Slider Grid.Column="1" VerticalAlignment="Center" TickFrequency="10" TickPlacement="Outside" Minimum="0" Value="100" Maximum="100" x:Name="GainSlider" ValueChanged="Slider_ValueChanged" />
+        </Grid>
     </Grid>
-</UserControl>
+</nodes:NodeControl>

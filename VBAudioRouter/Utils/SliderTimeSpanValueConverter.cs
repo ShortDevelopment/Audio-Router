@@ -2,7 +2,7 @@
 
 namespace VBAudioRouter.Utils;
 
-internal sealed class SliderTimeSpanValueConverter : IValueConverter
+internal sealed partial class SliderTimeSpanValueConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using System.Diagnostics;
 using Windows.UI;
 
 namespace VBAudioRouter.Utils;
@@ -36,45 +37,34 @@ internal static class Extensions
     public static FrameworkElement FindNameRecursive(this FrameworkElement ele, string name)
         => ele.FindNameRecursive(name);
 
-    /// <summary>
-    /// https://stackoverflow.com/a/24120993/15213858
-    /// </summary>
-    /// <param name="this"></param>
-    public static void BringToFront(this FrameworkElement @this)
+    extension(Process)
     {
-        if (@this.Parent is not Panel parent)
-            return;
-
-        int currentIndex = Canvas.GetZIndex(@this);
-        int maxZ = 0;
-        foreach (var child in parent.Children)
+        public static Process? TryGetById(int id)
         {
-            if (child == @this)
-                continue;
-
-            var zIndex = Canvas.GetZIndex(child);
-            maxZ = Math.Max(maxZ, zIndex);
-
-            if (zIndex >= currentIndex)
-                Canvas.SetZIndex(child, zIndex - 1);
+            try
+            {
+                return Process.GetProcessById(id);
+            }
+            catch
+            {
+                return null;
+            }
         }
-
-        Canvas.SetZIndex(@this, maxZ);
     }
-}
 
-internal static class ColorTranslator
-{
-    /// <summary>
-    /// http://joeljoseph.net/converting-hex-to-color-in-universal-windows-platform-uwp/
-    /// </summary>
-    public static Color FromHex(string hex)
+    extension(UIElement element)
     {
-        hex = hex.Replace("#", string.Empty);
-        byte a = 255;
-        byte r = System.Convert.ToByte(Convert.ToUInt32(hex.Substring(0, 2), 16));
-        byte g = System.Convert.ToByte(Convert.ToUInt32(hex.Substring(2, 2), 16));
-        byte b = System.Convert.ToByte(Convert.ToUInt32(hex.Substring(4, 2), 16));
-        return Color.FromArgb(a, r, g, b);
+        public async Task ShowErrorDialogAsync(Exception ex)
+        {
+            ContentDialog dialog = new()
+            {
+                Title = ex.GetType().Name,
+                Content = new TextBlock() { Text = ex.Message },
+                DefaultButton = ContentDialogButton.Close,
+                CloseButtonText = "Ok",
+                XamlRoot = element.XamlRoot
+            };
+            await dialog.ShowAsync();
+        }
     }
 }

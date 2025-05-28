@@ -1,5 +1,7 @@
-﻿using VBAudioRouter.Capture;
+﻿using NAudio.CoreAudioApi.Interfaces;
+using VBAudioRouter.Capture;
 using Windows.Win32;
+using Windows.Win32.System.Com.StructuredStorage;
 
 namespace VBAudioRouter;
 internal static class AudioInterfaceActivator
@@ -7,7 +9,7 @@ internal static class AudioInterfaceActivator
     public static ValueTask<T> ActivateAudioInterfaceAsync<T>(string deviceId) where T : class
     {
         ActivateAudioInterfaceCompletionHandler<T> handler = new();
-        PInvoke.ActivateAudioInterfaceAsync(deviceId, typeof(T).GUID, activationParams: null, handler, out var resultHandler);
+        PInvoke.ActivateAudioInterfaceAsync(deviceId, typeof(T).GUID, activationParams: default(PROPVARIANT), handler, out var resultHandler);
         handler.WaitForCompletion();
 
         resultHandler.GetActivateResult(out var hres, out var result);

@@ -1,0 +1,35 @@
+<Path
+    x:Class="ShortDev.NodeFlow.WinUI.BezierConnection"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ShortDev.NodeFlow.WinUI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Stroke="White" StrokeThickness="2" StrokeDashCap="Round"
+    GotFocus="Path_GotFocus" LostFocus="Path_LostFocus"
+    PointerPressed="Path_PointerPressed"
+    AllowFocusOnInteraction="True" IsTabStop="True"
+    x:Name="Root">
+
+    <Path.Resources>
+        <Storyboard x:Name="FocusAnimation">
+            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True"
+                                       Storyboard.TargetProperty="(Shape.StrokeDashOffset)"
+                                       Storyboard.TargetName="Root">
+                <EasingDoubleKeyFrame KeyTime="0:1:0"
+                                  Value="-500" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Path.Resources>
+
+    <Path.Data>
+        <PathGeometry>
+            <PathFigure StartPoint="{x:Bind StartPoint, Mode=OneWay}">
+                <BezierSegment Point1="{x:Bind ControlPoint1(StartPoint, EndPoint), Mode=OneWay}"
+                    Point2="{x:Bind ControlPoint2(StartPoint, EndPoint), Mode=OneWay}"
+                    Point3="{x:Bind EndPoint, Mode=OneWay}" />
+            </PathFigure>
+        </PathGeometry>
+    </Path.Data>
+</Path>

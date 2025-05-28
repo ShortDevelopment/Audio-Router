@@ -1,0 +1,85 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ShortDev.NodeFlow.WinUI">
+
+    <Style TargetType="local:NodeControl" BasedOn="{StaticResource DefaultNodeControlStyle}" />
+
+    <Style x:Name="DefaultNodeControlStyle" TargetType="local:NodeControl">
+        <Setter Property="MinWidth" Value="200" />
+        <Setter Property="MinHeight" Value="100" />
+
+        <Setter Property="Padding" Value="8" />
+
+        <Setter Property="Background" Value="#3F3F3F" />
+
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="BorderBrush" Value="#121212" />
+        <Setter Property="BorderThickness" Value="1" />
+
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+
+        <Setter Property="AllowFocusOnInteraction" Value="True" />
+        <Setter Property="UseSystemFocusVisuals" Value="True" />
+        <Setter Property="FocusVisualPrimaryThickness" Value="2" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:NodeControl">
+                    <Grid Background="{TemplateBinding Background}"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid x:Name="NodeTitleElement"
+                              Background="{StaticResource NodeTitleBarBrush}"
+                              Grid.ColumnSpan="3"
+                              Padding="8"
+                              ManipulationMode="TranslateX, TranslateY"
+                              ManipulationDelta="UserControl_ManipulationDelta"
+                              ManipulationStarted="Grid_ManipulationStarted">
+                            <TextBlock Text="{TemplateBinding Title}"
+                                       FontSize="12"
+                                       Foreground="White" />
+                        </Grid>
+
+                        <ContentPresenter Grid.Row="1" Grid.ColumnSpan="3"
+                                          Padding="{TemplateBinding Padding}"
+                                          Content="{TemplateBinding NodeContent}" />
+
+                        <ItemsControl Grid.Column="0" Grid.Row="1" Margin="0,8,0,8" 
+                                      ItemsSource="{TemplateBinding Inputs}"
+                                      ItemTemplate="{TemplateBinding InputConnectorTemplate}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical" Spacing="8" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+
+                        <ItemsControl Grid.Column="2" Grid.Row="1" Margin="0,8,0,8" 
+                                      ItemsSource="{TemplateBinding Outputs}"
+                                      ItemTemplate="{TemplateBinding OutputConnectorTemplate}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical" Spacing="8" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

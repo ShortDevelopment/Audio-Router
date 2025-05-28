@@ -1,0 +1,62 @@
+<Page
+    x:Class="VBAudioRouter.LocalAudioGraph.AudioGraphPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VBAudioRouter.LocalAudioGraph"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:nodes="using:ShortDev.NodeFlow.WinUI"
+    mc:Ignorable="d">
+
+    <Grid>
+        <ItemsControl ItemsSource="{x:Bind ViewModel.Connections}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="local:ConnectionViewModel">
+                    <nodes:BezierConnection 
+                        StartPoint="{x:Bind Source.Anchor, Mode=OneWay}"
+                        EndPoint="{x:Bind Target.Anchor, Mode=OneWay}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <ItemsControl ItemsSource="{x:Bind ViewModel.Nodes}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="local:NodeViewModel">
+                    <nodes:NodeControl Title="{x:Bind Title}" Inputs="{x:Bind Inputs}" Outputs="{x:Bind Outputs}">
+                        <nodes:NodeControl.InputConnectorTemplate>
+                            <DataTemplate x:DataType="local:ConnectorViewModel">
+                                <nodes:ConnectorControl ConnectorPosition="{x:Bind Anchor, Mode=TwoWay}"
+                                                    Connected="ConnectorControl_Connected">
+                                    <nodes:ConnectorControl.RenderTransform>
+                                        <CompositeTransform TranslateX="-8" />
+                                    </nodes:ConnectorControl.RenderTransform>
+                                </nodes:ConnectorControl>
+                            </DataTemplate>
+                        </nodes:NodeControl.InputConnectorTemplate>
+                        <nodes:NodeControl.OutputConnectorTemplate>
+                            <DataTemplate x:DataType="local:ConnectorViewModel">
+                                <nodes:ConnectorControl ConnectorPosition="{x:Bind Anchor, Mode=TwoWay}" IsOutgoing="True">
+                                    <nodes:ConnectorControl.RenderTransform>
+                                        <CompositeTransform TranslateX="8" />
+                                    </nodes:ConnectorControl.RenderTransform>
+                                </nodes:ConnectorControl>
+                            </DataTemplate>
+                        </nodes:NodeControl.OutputConnectorTemplate>
+                    </nodes:NodeControl>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</Page>

@@ -1,10 +1,11 @@
 ﻿using Microsoft.UI.Xaml.Controls;
+using ShortDev.NodeFlow.WinUI;
 using VBAudioRouter.GraphControl;
 using Windows.Media.Audio;
 
 namespace VBAudioRouter.Controls.Nodes;
 
-internal sealed partial class OutputNodeControl : UserControl, IAudioOutputNodeControl<IAudioNode>, IAudioNodeControlFactory<OutputNodeControl>
+internal sealed partial class OutputNodeControl : NodeControl, IAudioOutputNodeControl<IAudioNode>, IAudioNodeControlFactory<OutputNodeControl>
 {
     public IAudioNode GraphNode { get; }
     public OutputNodeControl(IAudioNode node)

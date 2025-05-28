@@ -4,3 +4,9 @@ IAudioSessionManager
 IAudioSessionManager2
 ActivateAudioInterfaceAsync
 IMemoryBufferByteAccess
+
+CreateToolhelp32Snapshot
+Process32FirstW
+Process32NextW
+
+CloseHandle

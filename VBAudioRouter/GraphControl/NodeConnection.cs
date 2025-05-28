@@ -1,11 +1,11 @@
 ﻿using Microsoft.UI.Xaml.Shapes;
-using VBAudioRouter.Controls;
+using ShortDev.NodeFlow.WinUI;
 
 namespace VBAudioRouter.GraphControl;
-internal struct NodeConnection
+public struct NodeConnection
 {
     public ConnectorControl SourceConnector { get; set; }
     public ConnectorControl DestinationConnector { get; set; }
-    public Line Line { get; set; }
+    public Shape Line { get; set; }
 }
 

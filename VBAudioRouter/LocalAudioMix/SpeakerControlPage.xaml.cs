@@ -1,14 +1,14 @@
-﻿using System.Collections.ObjectModel;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Navigation;
-using VBAudioRouter.Controls;
+using System.Collections.ObjectModel;
+using Windows.Devices.Enumeration;
 using Windows.Win32.Foundation;
 using Windows.Win32.Media.Audio;
 using Windows.Win32.Media.Audio.Endpoints;
 
-namespace VBAudioRouter.UI;
+namespace VBAudioRouter.LocalAudioMix;
 
 internal sealed partial class SpeakerControlPage : Page, IAudioEndpointVolumeCallback, IAudioSessionNotification
 {
@@ -23,8 +23,8 @@ internal sealed partial class SpeakerControlPage : Page, IAudioEndpointVolumeCal
 
     protected override async void OnNavigatedTo(NavigationEventArgs e)
     {
-        string deviceId = (string)e.Parameter;
-        VolumeManager = await AudioInterfaceActivator.ActivateAudioInterfaceAsync<IAudioEndpointVolume>(deviceId);
+        var deviceinfo = (DeviceInformation)e.Parameter;
+        VolumeManager = await AudioInterfaceActivator.ActivateAudioInterfaceAsync<IAudioEndpointVolume>(deviceinfo.Id);
         MeterInformation = (IAudioMeterInformation)VolumeManager;
 
         VolumeManager.RegisterControlChangeNotify(this);
@@ -33,25 +33,20 @@ internal sealed partial class SpeakerControlPage : Page, IAudioEndpointVolumeCal
             OnNotify((AUDIO_VOLUME_NOTIFICATION_DATA*)0);
         }
 
-        System.Timers.Timer timer = new()
+        var timer = DispatcherQueue.CreateTimer();
+        timer.Interval = TimeSpan.FromMilliseconds(30);
+        timer.Tick += (s, e) =>
         {
-            Interval = 30
+            MeterInformation.GetMeteringChannelCount(out var channelCount);
+            float[] meters = new float[channelCount];
+            MeterInformation.GetChannelsPeakValues((uint)meters.Length, meters);
+            LeftMeter.ScaleY = meters[0];
+            if (meters.Length > 1)
+                RightMeter.ScaleY = meters[1];
         };
-        timer.Elapsed += (s, e) =>
-        {
-            var unused = DispatcherQueue.TryEnqueue(() =>
-            {
-                MeterInformation.GetMeteringChannelCount(out var channelCount);
-                float[] meters = new float[channelCount];
-                MeterInformation.GetChannelsPeakValues((uint)meters.Length, meters);
-                LeftMeter.ScaleY = meters[0];
-                if (meters.Length > 1)
-                    RightMeter.ScaleY = meters[1];
-            });
-        };
-        timer.Enabled = true;
+        timer.Start();
 
-        AudioSessionManager = (IAudioSessionManager2)await AudioInterfaceActivator.ActivateAudioInterfaceAsync<IAudioSessionManager>(deviceId);
+        AudioSessionManager = (IAudioSessionManager2)await AudioInterfaceActivator.ActivateAudioInterfaceAsync<IAudioSessionManager>(deviceinfo.Id);
         AudioSessionManager.RegisterSessionNotification(this);
         var sessionEnumerator = AudioSessionManager.GetSessionEnumerator();
         sessionEnumerator.GetCount(out var sessionCount);
@@ -68,7 +63,7 @@ internal sealed partial class SpeakerControlPage : Page, IAudioEndpointVolumeCal
         AudioSessionManager?.UnregisterSessionNotification(this);
     }
 
-    public readonly ObservableCollection<AudioSessionControl> AudioSessions = new();
+    public readonly ObservableCollection<AudioSessionControl> AudioSessions = [];
     private void AddAudioSession(IAudioSessionControl session)
     {
         AudioSessions.Add(new AudioSessionControl(this, (NAudio.CoreAudioApi.Interfaces.IAudioSessionControl)session));

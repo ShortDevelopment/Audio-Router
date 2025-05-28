@@ -14,5 +14,44 @@
         <MicaBackdrop/>
     </Window.SystemBackdrop>
 
-    <ui:MainPage />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <!-- Title Bar -->
+            <RowDefinition Height="*" />
+            <!-- App Content -->
+        </Grid.RowDefinitions>
+        <TitleBar x:Name="DefaultTitleBar" Title="VB Audio Router" Subtitle="Preview">
+            <TitleBar.IconSource>
+                <FontIconSource Glyph="&#xE7F6;" />
+            </TitleBar.IconSource>
+        </TitleBar>
+
+        <!-- App content -->
+        <NavigationView Grid.Row="1"
+                        Style="{StaticResource MainNavigationViewStyle}"
+                        IsSettingsVisible="False"
+                        SelectionChanged="NavigationView_SelectionChanged">
+
+            <NavigationView.MenuItems>
+                <NavigationViewItem Content="Audio Graph" Tag="LocalAudioGraph" IsSelected="True">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xEF90;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Speakers" Tag="LocalAudioMix">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xe7f5;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="HiQnet" Tag="HiQnet">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE8AF;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
+
+            <Frame x:Name="MainFrame" />
+        </NavigationView>
+    </Grid>
 </windowex:WindowEx>
