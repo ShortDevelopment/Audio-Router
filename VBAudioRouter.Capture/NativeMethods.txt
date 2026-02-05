@@ -1,4 +1,0 @@
-IMemoryBufferByteAccess
-IActivateAudioInterfaceAsyncOperation
-IActivateAudioInterfaceCompletionHandler
-ActivateAudioInterfaceAsync

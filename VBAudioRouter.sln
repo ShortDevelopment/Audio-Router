@@ -1,16 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.2.32516.85
+# Visual Studio Version 18
+VisualStudioVersion = 18.2.11415.280 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "VBAudioRouter.UWP", "VBAudioRouter.UWP\VBAudioRouter.UWP.vbproj", "{65472FE0-CAA5-4078-9155-3373AF4B692F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VBAudioRouter", "src\VBAudioRouter.csproj", "{479E5F66-984B-4CF5-A358-4979600292DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudioRouter", "src\AudioRouter.csproj", "{479E5F66-984B-4CF5-A358-4979600292DC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
-	ProjectSection(SolutionItems) = preProject
-		Directory.Build.props = Directory.Build.props
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{733EDF3B-B655-44A7-A6ED-D78C96441DC2}"
 EndProject
@@ -30,36 +25,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Debug|ARM.Build.0 = Debug|Any CPU
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Debug|ARM.Deploy.0 = Debug|Any CPU
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Debug|ARM64.ActiveCfg = Debug|Any CPU
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Debug|ARM64.Build.0 = Debug|Any CPU
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Debug|ARM64.Deploy.0 = Debug|Any CPU
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Debug|x64.ActiveCfg = Debug|x64
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Debug|x64.Build.0 = Debug|x64
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Debug|x64.Deploy.0 = Debug|x64
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Debug|x86.ActiveCfg = Debug|x86
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Debug|x86.Build.0 = Debug|x86
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Debug|x86.Deploy.0 = Debug|x86
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Release|ARM.ActiveCfg = Release|Any CPU
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Release|ARM.Build.0 = Release|Any CPU
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Release|ARM.Deploy.0 = Release|Any CPU
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Release|ARM64.ActiveCfg = Release|Any CPU
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Release|ARM64.Build.0 = Release|Any CPU
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Release|ARM64.Deploy.0 = Release|Any CPU
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Release|x64.ActiveCfg = Release|x64
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Release|x64.Build.0 = Release|x64
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Release|x64.Deploy.0 = Release|x64
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Release|x86.ActiveCfg = Release|x86
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Release|x86.Build.0 = Release|x86
-		{65472FE0-CAA5-4078-9155-3373AF4B692F}.Release|x86.Deploy.0 = Release|x86
 		{479E5F66-984B-4CF5-A358-4979600292DC}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{479E5F66-984B-4CF5-A358-4979600292DC}.Debug|Any CPU.Build.0 = Debug|x64
 		{479E5F66-984B-4CF5-A358-4979600292DC}.Debug|Any CPU.Deploy.0 = Debug|x64
