@@ -1,6 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 
-namespace VBAudioRouter;
+namespace AudioRouter;
 
 // To learn more about WinUI 3, see https://docs.microsoft.com/windows/apps/winui/winui3/.
 public partial class App : Application

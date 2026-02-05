@@ -14,7 +14,7 @@ using static Windows.Win32.PInvoke;
 using IActivateAudioInterfaceAsyncOperation = Windows.Win32.Media.Audio.IActivateAudioInterfaceAsyncOperation;
 using IActivateAudioInterfaceCompletionHandler = Windows.Win32.Media.Audio.IActivateAudioInterfaceCompletionHandler;
 
-namespace VBAudioRouter.Capture;
+namespace AudioRouter.Capture;
 
 public sealed partial class ProcessAudioCapture(Process process, bool include = true) : IDisposable
 {

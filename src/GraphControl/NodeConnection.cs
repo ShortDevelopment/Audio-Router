@@ -1,7 +1,7 @@
 ﻿using Microsoft.UI.Xaml.Shapes;
 using ShortDev.NodeFlow.WinUI;
 
-namespace VBAudioRouter.GraphControl;
+namespace AudioRouter.GraphControl;
 public struct NodeConnection
 {
     public ConnectorControl SourceConnector { get; set; }

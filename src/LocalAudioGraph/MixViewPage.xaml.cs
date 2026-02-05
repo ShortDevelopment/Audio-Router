@@ -1,13 +1,13 @@
-﻿using Microsoft.UI.Xaml;
+﻿using AudioRouter.GraphControl;
+using AudioRouter.Utils;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System.Collections.ObjectModel;
-using VBAudioRouter.GraphControl;
-using VBAudioRouter.Utils;
 using Windows.Devices.Enumeration;
 using Windows.Media.Audio;
 
-namespace VBAudioRouter.LocalAudioGraph;
+namespace AudioRouter.LocalAudioGraph;
 
 internal sealed partial class MixViewPage : Page
 {

@@ -2,7 +2,7 @@
 using Microsoft.UI.Xaml.Input;
 using Windows.Foundation;
 
-namespace VBAudioRouter.Controls;
+namespace AudioRouter.Controls;
 
 public sealed partial class EQDragControl : UserControl
 {

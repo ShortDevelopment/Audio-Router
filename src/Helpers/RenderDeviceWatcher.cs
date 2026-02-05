@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using Windows.Devices.Enumeration;
 
-namespace VBAudioRouter.Helpers;
+namespace AudioRouter.Helpers;
 
 public sealed class RenderDeviceWatcher
 {

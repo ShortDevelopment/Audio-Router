@@ -3,7 +3,7 @@ using ShortDev.NodeFlow.WinUI;
 using System.Text;
 using Windows.Media.Audio;
 
-namespace VBAudioRouter.GraphControl;
+namespace AudioRouter.GraphControl;
 
 internal interface IAudioNodeControl<out TNode> where TNode : IAudioNode
 {

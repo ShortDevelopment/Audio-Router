@@ -1,7 +1,7 @@
 ﻿using MorseCode.ITask;
 using Windows.Media.Audio;
 
-namespace VBAudioRouter.LocalAudioGraph;
+namespace AudioRouter.LocalAudioGraph;
 
 internal interface IAudioNodeFactory<out TNode> where TNode : IAudioNode
 {

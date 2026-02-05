@@ -9,7 +9,7 @@ using Windows.Media.Core;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
 
-namespace VBAudioRouter.LocalAudioGraph.Nodes;
+namespace AudioRouter.LocalAudioGraph.Nodes;
 
 [ObservableObject]
 internal sealed partial class FileInputNodeControl : NodeControl, IAudioNodeFactory<MediaSourceAudioInputNode>

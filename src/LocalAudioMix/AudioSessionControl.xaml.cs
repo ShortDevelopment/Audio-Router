@@ -1,11 +1,12 @@
-﻿using Microsoft.UI.Xaml;
+﻿using AudioRouter.Utils;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using NAudio.CoreAudioApi.Interfaces;
 using System.Diagnostics;
-using VBAudioRouter.Utils;
+using AudioRouter.Utils;
 
-namespace VBAudioRouter.LocalAudioMix;
+namespace AudioRouter.LocalAudioMix;
 
 public sealed partial class AudioSessionControl : UserControl, IAudioSessionEvents
 {

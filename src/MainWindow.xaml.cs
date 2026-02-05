@@ -1,10 +1,10 @@
-﻿using Microsoft.UI.Xaml.Controls;
-using VBAudioRouter.Helpers;
-using VBAudioRouter.LocalAudioGraph;
-using VBAudioRouter.LocalAudioMix;
-using VBAudioRouter.UI;
+﻿using AudioRouter.Helpers;
+using Microsoft.UI.Xaml.Controls;
+using AudioRouter.LocalAudioGraph;
+using AudioRouter.LocalAudioMix;
+using AudioRouter.UI;
 
-namespace VBAudioRouter;
+namespace AudioRouter;
 
 public sealed partial class MainWindow : WindowEx
 {

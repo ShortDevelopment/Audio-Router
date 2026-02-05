@@ -2,7 +2,7 @@
 using ShortDev.NodeFlow.WinUI;
 using Windows.Media.Audio;
 
-namespace VBAudioRouter.LocalAudioGraph.Nodes;
+namespace AudioRouter.LocalAudioGraph.Nodes;
 
 internal sealed partial class OutputNodeControl : NodeControl, IAudioNodeFactory<AudioDeviceOutputNode>
 {

@@ -1,12 +1,12 @@
-﻿using Microsoft.UI.Xaml;
+﻿using AudioRouter.Capture;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using MorseCode.ITask;
 using ShortDev.NodeFlow.WinUI;
-using VBAudioRouter.Capture;
 using Windows.Media.Audio;
 
-namespace VBAudioRouter.LocalAudioGraph.Nodes;
+namespace AudioRouter.LocalAudioGraph.Nodes;
 
 public sealed partial class ProcessInputNodeControl : NodeControl, IAudioNodeFactory<AudioFrameInputNode>
 {

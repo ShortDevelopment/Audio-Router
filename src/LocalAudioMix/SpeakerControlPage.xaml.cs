@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using AudioRouter;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Navigation;
@@ -8,7 +9,7 @@ using Windows.Win32.Foundation;
 using Windows.Win32.Media.Audio;
 using Windows.Win32.Media.Audio.Endpoints;
 
-namespace VBAudioRouter.LocalAudioMix;
+namespace AudioRouter.LocalAudioMix;
 
 internal sealed partial class SpeakerControlPage : Page, IAudioEndpointVolumeCallback, IAudioSessionNotification
 {

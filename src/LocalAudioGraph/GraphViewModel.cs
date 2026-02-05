@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using Windows.Foundation;
 
-namespace VBAudioRouter.LocalAudioGraph;
+namespace AudioRouter.LocalAudioGraph;
 
 public sealed partial class GraphViewModel : ObservableObject
 {

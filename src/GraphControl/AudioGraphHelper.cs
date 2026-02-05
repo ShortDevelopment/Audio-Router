@@ -2,7 +2,7 @@
 using Windows.Media.Audio;
 using Windows.Media.Render;
 
-namespace VBAudioRouter.GraphControl;
+namespace AudioRouter.GraphControl;
 
 internal static class AudioGraphHelper
 {

@@ -1,10 +1,10 @@
 ﻿<Page
-    x:Class="VBAudioRouter.UI.MainPage"
+    x:Class="AudioRouter.UI.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="using:VBAudioRouter.UI" xmlns:enumeration="using:Windows.Devices.Enumeration"
+    xmlns:local="using:AudioRouter.UI" xmlns:enumeration="using:Windows.Devices.Enumeration"
     mc:Ignorable="d">
 
     <NavigationView PaneDisplayMode="Top" MenuItemsSource="{x:Bind RenderDeviceWatcher.RenderDevices}"

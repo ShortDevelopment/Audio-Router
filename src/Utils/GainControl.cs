@@ -1,4 +1,4 @@
-﻿namespace VBAudioRouter.Utils;
+﻿namespace AudioRouter.Utils;
 
 internal static class GainControl
 {

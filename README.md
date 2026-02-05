@@ -1,6 +1,5 @@
-# VB-Audio-Router
-VB-Audio-Router is an advanced audio routing application build with UWP and the WinRT Audio Graph API.   
-Learn more in the [Wiki](https://github.com/ShortDevelopment/VB-Audio-Rooter/wiki).   
+# Audio-Router
+Audio-Router is an advanced audio routing application build with UWP and the WinRT Audio Graph API.   
 
 [![grafik](https://img.shields.io/static/v1?label=Microsoft%20Store&message=Download&color=0078D6&style=for-the-badge&logo=microsoft)](https://www.microsoft.com/store/apps/9P2XZ0G2C9PD)
 

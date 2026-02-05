@@ -1,6 +1,6 @@
 ﻿using Microsoft.UI.Xaml.Data;
 
-namespace VBAudioRouter.Utils;
+namespace AudioRouter.Utils;
 
 internal sealed partial class SliderTimeSpanValueConverter : IValueConverter
 {

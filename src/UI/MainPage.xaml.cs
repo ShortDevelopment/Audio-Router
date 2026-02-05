@@ -1,9 +1,9 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using AudioRouter.Helpers;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
-using VBAudioRouter.Helpers;
 using Windows.Devices.Enumeration;
 
-namespace VBAudioRouter.UI;
+namespace AudioRouter.UI;
 
 public sealed partial class MainPage : Page
 {

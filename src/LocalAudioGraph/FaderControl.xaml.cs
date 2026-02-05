@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using VBAudioRouter.GraphControl;
+using AudioRouter.GraphControl;
 
-namespace VBAudioRouter.LocalAudioGraph;
+namespace AudioRouter.LocalAudioGraph;
 
 [ObservableObject]
 internal sealed partial class FaderControl : UserControl

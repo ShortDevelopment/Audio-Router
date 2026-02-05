@@ -1,6 +1,6 @@
 ﻿using Microsoft.Windows.ApplicationModel.Resources;
 
-namespace VBAudioRouter.Helpers;
+namespace AudioRouter.Helpers;
 
 public static class ResourceExtensions
 {

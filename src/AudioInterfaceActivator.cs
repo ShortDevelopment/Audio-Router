@@ -1,9 +1,9 @@
 ﻿using NAudio.CoreAudioApi.Interfaces;
-using VBAudioRouter.Capture;
+using AudioRouter.Capture;
 using Windows.Win32;
 using Windows.Win32.System.Com.StructuredStorage;
 
-namespace VBAudioRouter;
+namespace AudioRouter;
 internal static class AudioInterfaceActivator
 {
     public static ValueTask<T> ActivateAudioInterfaceAsync<T>(string deviceId) where T : class

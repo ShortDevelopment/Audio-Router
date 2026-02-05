@@ -4,7 +4,7 @@
 
 using Microsoft.UI.Xaml;
 
-namespace VBAudioRouter.Helpers;
+namespace AudioRouter.Helpers;
 
 internal sealed class NavItemIconHelper
 {

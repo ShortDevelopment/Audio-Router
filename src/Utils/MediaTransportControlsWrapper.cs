@@ -3,7 +3,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Windows.Foundation;
 
-namespace VBAudioRouter.Utils;
+namespace AudioRouter.Utils;
 
 public class MediaTransportControlsWrapper(MediaTransportControls control)
 {

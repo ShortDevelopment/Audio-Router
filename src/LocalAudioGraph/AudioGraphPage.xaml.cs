@@ -1,6 +1,6 @@
 using Microsoft.UI.Xaml.Controls;
 
-namespace VBAudioRouter.LocalAudioGraph;
+namespace AudioRouter.LocalAudioGraph;
 
 public sealed partial class AudioGraphPage : Page
 {
