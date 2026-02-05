@@ -5,10 +5,76 @@
     xmlns:local="using:VBAudioRouter.LocalAudioGraph"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:nodes="using:ShortDev.NodeFlow.WinUI"
+    xmlns:nodeFlow="using:ShortDev.NodeFlow.WinUI"
+    xmlns:nodes="using:VBAudioRouter.LocalAudioGraph.Nodes"
+    xmlns:collection="using:System.Collections"
     mc:Ignorable="d">
 
-    <Grid>
+    <Page.Resources>
+        <DataTemplate x:Key="InputConnectorTemplate" x:DataType="local:ConnectorViewModel">
+            <nodeFlow:ConnectorControl ConnectorPosition="{x:Bind Anchor, Mode=TwoWay}"
+                        Connected="ConnectorControl_Connected">
+                <nodeFlow:ConnectorControl.RenderTransform>
+                    <CompositeTransform TranslateX="-8" />
+                </nodeFlow:ConnectorControl.RenderTransform>
+            </nodeFlow:ConnectorControl>
+        </DataTemplate>
+
+        <DataTemplate x:Key="OutputConnectorTemplate" x:DataType="local:ConnectorViewModel">
+            <nodeFlow:ConnectorControl ConnectorPosition="{x:Bind Anchor, Mode=TwoWay}" IsOutgoing="True">
+                <nodeFlow:ConnectorControl.RenderTransform>
+                    <CompositeTransform TranslateX="8" />
+                </nodeFlow:ConnectorControl.RenderTransform>
+            </nodeFlow:ConnectorControl>
+        </DataTemplate>
+
+        <local:NodeTemplateSelector x:Key="NodeTemplateSelector">
+            <local:NodeTemplateSelector.Templates>
+                <local:TemplateLookup>
+                    <DataTemplate x:Key="nodes:OutputNodeModel" x:DataType="nodes:OutputNodeModel">
+                        <nodes:OutputNodeControl Title="{x:Bind Title}"
+                              Inputs="{x:Bind Inputs}" InputConnectorTemplate="{StaticResource InputConnectorTemplate}"
+                              Outputs="{x:Bind Outputs}" OutputConnectorTemplate="{StaticResource OutputConnectorTemplate}" />
+                    </DataTemplate>
+                    <DataTemplate x:Key="nodes:ProcessInputNodeModel" x:DataType="nodes:ProcessInputNodeModel">
+                        <nodes:ProcessInputNodeControl Title="{x:Bind Title}"
+                              Inputs="{x:Bind Inputs}" InputConnectorTemplate="{StaticResource InputConnectorTemplate}"
+                              Outputs="{x:Bind Outputs}" OutputConnectorTemplate="{StaticResource OutputConnectorTemplate}" />
+                    </DataTemplate>
+                </local:TemplateLookup>
+            </local:NodeTemplateSelector.Templates>
+        </local:NodeTemplateSelector>
+    </Page.Resources>
+
+    <Grid Background="Transparent">
+
+        <Grid.ContextFlyout>
+            <MenuFlyout x:Name="ContextMenuFlyout">
+                <MenuFlyoutSubItem Text="Input">
+                    <MenuFlyoutItem Text="Microphone" Tag="MicInputNodeControl" Click="MenuFlyoutItem_Click" />
+                    <MenuFlyoutItem Text="File" Tag="FileInputNodeControl" Click="MenuFlyoutItem_Click" />
+                    <MenuFlyoutItem Text="TTS" Tag="TextToSpeechInputNodeControl" Click="MenuFlyoutItem_Click" />
+                    <MenuFlyoutItem Text="Process" Tag="ProcessInputNodeControl" Click="MenuFlyoutItem_Click" />
+                </MenuFlyoutSubItem>
+                <MenuFlyoutSeparator />
+                <MenuFlyoutSubItem Text="Effects">
+                    <MenuFlyoutItem Text="Equalizer" Tag="EQNodeControl" Click="MenuFlyoutItem_Click" />
+                    <MenuFlyoutItem Text="Reverb" Tag="ReverbNodeControl" Click="MenuFlyoutItem_Click" />
+                    <MenuFlyoutItem Text="Echo" Tag="EchoNodeControl" Click="MenuFlyoutItem_Click" />
+                    <MenuFlyoutItem Text="Limiter" Tag="LimiterNodeControl" Click="MenuFlyoutItem_Click" />
+                </MenuFlyoutSubItem>
+                <MenuFlyoutSubItem Text="Transforms">
+                    <MenuFlyoutItem Text="Gain" Tag="GainNodeControl" Click="MenuFlyoutItem_Click" />
+                </MenuFlyoutSubItem>
+                <MenuFlyoutSeparator />
+                <MenuFlyoutSubItem Text="Output">
+                    <MenuFlyoutItem Text="Device" IsEnabled="False" />
+                    <MenuFlyoutItem Text="File" IsEnabled="False" />
+                    <MenuFlyoutItem Text="Spectrum" Tag="SpectrumNodeControl" Click="MenuFlyoutItem_Click" />
+                </MenuFlyoutSubItem>
+            </MenuFlyout>
+        </Grid.ContextFlyout>
+
         <ItemsControl ItemsSource="{x:Bind ViewModel.Connections}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -18,14 +84,14 @@
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="local:ConnectionViewModel">
-                    <nodes:BezierConnection 
+                    <nodeFlow:BezierConnection 
                         StartPoint="{x:Bind Source.Anchor, Mode=OneWay}"
                         EndPoint="{x:Bind Target.Anchor, Mode=OneWay}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <ItemsControl ItemsSource="{x:Bind ViewModel.Nodes}">
+        <ItemsControl ItemsSource="{x:Bind ViewModel.Nodes}" ItemTemplateSelector="{StaticResource NodeTemplateSelector}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas />
@@ -34,27 +100,9 @@
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate x:DataType="local:NodeViewModel">
-                    <nodes:NodeControl Title="{x:Bind Title}" Inputs="{x:Bind Inputs}" Outputs="{x:Bind Outputs}">
-                        <nodes:NodeControl.InputConnectorTemplate>
-                            <DataTemplate x:DataType="local:ConnectorViewModel">
-                                <nodes:ConnectorControl ConnectorPosition="{x:Bind Anchor, Mode=TwoWay}"
-                                                    Connected="ConnectorControl_Connected">
-                                    <nodes:ConnectorControl.RenderTransform>
-                                        <CompositeTransform TranslateX="-8" />
-                                    </nodes:ConnectorControl.RenderTransform>
-                                </nodes:ConnectorControl>
-                            </DataTemplate>
-                        </nodes:NodeControl.InputConnectorTemplate>
-                        <nodes:NodeControl.OutputConnectorTemplate>
-                            <DataTemplate x:DataType="local:ConnectorViewModel">
-                                <nodes:ConnectorControl ConnectorPosition="{x:Bind Anchor, Mode=TwoWay}" IsOutgoing="True">
-                                    <nodes:ConnectorControl.RenderTransform>
-                                        <CompositeTransform TranslateX="8" />
-                                    </nodes:ConnectorControl.RenderTransform>
-                                </nodes:ConnectorControl>
-                            </DataTemplate>
-                        </nodes:NodeControl.OutputConnectorTemplate>
-                    </nodes:NodeControl>
+                    <nodeFlow:NodeControl Title="{x:Bind Title}"
+                                       Inputs="{x:Bind Inputs}" InputConnectorTemplate="{StaticResource InputConnectorTemplate}"
+                                       Outputs="{x:Bind Outputs}" OutputConnectorTemplate="{StaticResource OutputConnectorTemplate}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

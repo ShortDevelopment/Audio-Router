@@ -4,10 +4,9 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using MorseCode.ITask;
 using ShortDev.NodeFlow.WinUI;
 using VBAudioRouter.Capture;
-using VBAudioRouter.LocalAudioGraph;
 using Windows.Media.Audio;
 
-namespace VBAudioRouter.Controls.Nodes;
+namespace VBAudioRouter.LocalAudioGraph.Nodes;
 
 public sealed partial class ProcessInputNodeControl : NodeControl, IAudioNodeFactory<AudioFrameInputNode>
 {
@@ -41,3 +40,5 @@ public sealed partial class ProcessInputNodeControl : NodeControl, IAudioNodeFac
     public async ITask<AudioFrameInputNode> CreateAudioNodeAsync(AudioGraph graph)
         => graph.CreateFrameInputNode();
 }
+
+public sealed partial class ProcessInputNodeModel : NodeViewModel;

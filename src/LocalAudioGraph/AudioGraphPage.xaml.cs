@@ -24,4 +24,9 @@ public sealed partial class AudioGraphPage : Page
 
         ViewModel.Connect(source, target);
     }
+
+    private void MenuFlyoutItem_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+
+    }
 }

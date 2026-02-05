@@ -18,16 +18,5 @@ internal sealed partial class FaderControl : UserControl
 
     private async void OpenGraphButton_Click(object sender, RoutedEventArgs e)
     {
-        if (FaderData is null)
-            throw new InvalidOperationException("No fader data assigned");
-
-        await new ContentDialog()
-        {
-            XamlRoot = XamlRoot,
-            Content = new GraphViewPage(FaderData),
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            VerticalAlignment = VerticalAlignment.Stretch,
-            MaxWidth = 500
-        }.ShowAsync();
     }
 }

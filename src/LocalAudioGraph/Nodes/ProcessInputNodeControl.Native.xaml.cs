@@ -5,7 +5,7 @@ using Windows.Win32.Foundation;
 using Windows.Win32.System.Diagnostics.ToolHelp;
 using static Windows.Win32.PInvoke;
 
-namespace VBAudioRouter.Controls.Nodes;
+namespace VBAudioRouter.LocalAudioGraph.Nodes;
 
 partial class ProcessInputNodeControl
 {

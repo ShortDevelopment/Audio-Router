@@ -19,7 +19,7 @@ public sealed partial class GraphViewModel : ObservableObject
     }
 }
 
-public sealed partial class NodeViewModel : ObservableObject
+public partial class NodeViewModel : ObservableObject
 {
     public string Title { get; set; } = "Some Node";
 

@@ -4,13 +4,12 @@ using Microsoft.UI.Xaml.Controls;
 using MorseCode.ITask;
 using ShortDev.NodeFlow.WinUI;
 using System.Diagnostics;
-using VBAudioRouter.LocalAudioGraph;
 using Windows.Media.Audio;
 using Windows.Media.Core;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
 
-namespace VBAudioRouter.Controls.Nodes;
+namespace VBAudioRouter.LocalAudioGraph.Nodes;
 
 [ObservableObject]
 internal sealed partial class FileInputNodeControl : NodeControl, IAudioNodeFactory<MediaSourceAudioInputNode>
