@@ -1,0 +1,23 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="ARM" />
+    <Platform Name="ARM64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/build/">
+    <File Path="Directory.Build.props" />
+  </Folder>
+  <Folder Name="/lib/">
+    <Project Path="lib/ShortDev.NodeFlow.WinUI/ShortDev.NodeFlow.WinUI.csproj" />
+  </Folder>
+  <Project Path="src/AudioRouter.csproj">
+    <Platform Solution="*|Any CPU" Project="x64" />
+    <Platform Solution="*|ARM" Project="x64" />
+    <Platform Solution="*|ARM64" Project="arm64" />
+    <Platform Solution="*|x64" Project="x64" />
+    <Platform Solution="*|x86" Project="x86" />
+    <Deploy />
+  </Project>
+</Solution>
